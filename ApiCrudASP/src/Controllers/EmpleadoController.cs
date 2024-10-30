@@ -23,9 +23,10 @@ namespace AppCrud.Controllers
         [HttpGet]
         public async Task<IActionResult> Lista()
         {
-
+            Empleado empleado = new Empleado();
             List<Empleado> lista=await _dbContext.Empleados.ToListAsync();
-
+            
+            ViewBag["Modelo"] = empleado;
         
             return View(lista);
         
@@ -49,6 +50,10 @@ namespace AppCrud.Controllers
           
             await _dbContext.Empleados.AddAsync(empleado);
             await _dbContext.SaveChangesAsync();
+
+            
+
+
             return RedirectToAction(nameof(Lista));
 
 
@@ -60,6 +65,8 @@ namespace AppCrud.Controllers
 
         public async Task<IActionResult> Editar(Empleado _empleado)
         {
+           
+            
             var empleado = await _dbContext.Empleados.FirstAsync(x => x.IdEmpleado == _empleado.IdEmpleado);
 
             if (empleado != null)
